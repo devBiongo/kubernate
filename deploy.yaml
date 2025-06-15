@@ -1,0 +1,26 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  template:
+    spec:
+      containers:
+        - image: docker.io/bitnami/nginx:latest
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false # 不允许权限升级
+            runAsNonRoot: true # 必须非 root 用户运行
+            capabilities:
+              drop:
+                - ALL # 删除所有额外权限
+            seccompProfile:
+              type: RuntimeDefault # 使用默认 seccomp 配置
+          resources:
+            limits:
+              cpu: "500m" # 限制最大 CPU 500 毫核
+              memory: "256Mi" # 限制最大内存 256 MiB
+            requests:
+              cpu: "250m" # 保证最小请求 CPU 250 毫核
+              memory: "128Mi" # 保证最小请求内存 128 MiB
