@@ -6,4 +6,16 @@ oc create secret docker-registry harbor-pull-secret \
  --docker-email=devops@mycorp.com
 ```
 
-oc secrets link default harbor-secret --for=pull -n my-namespace
+docker login -u xxx
+
+dckr_pat_CQkpx4X6QkiSmuwykqr7tvw21jkx
+
+oc create secret docker-registry hello-secret \
+ --docker-server=https://index.docker.io/v1/ \
+ --docker-username=xxx \
+ --docker-password=dckr_pat_CQkpx4X6QkiSmuwykqr7tvw21jkx \
+ --docker-email=xxx.dev@gmail.com
+
+oc create serviceaccount hello-sa
+
+oc secrets link hello-sa hello-secret --for=pull
